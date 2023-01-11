@@ -1,0 +1,92 @@
+SUMMARY="The official WebAssembly Binary Toolkit"
+DESCRIPTION="
+WABT (we pronounce it "wabbit") is a suite of tools for WebAssembly, including:
+
+ - wat2wasm: translate from WebAssembly text format to the WebAssembly binary format
+ - wasm2wat: the inverse of wat2wasm, translate from the binary format back to the text format (also known as a .wat)
+ - wasm-objdump: print information about a wasm binary. Similiar to objdump.
+ - wasm-interp: decode and run a WebAssembly binary file using a stack-based interpreter
+ - wasm-decompile: decompile a wasm binary into readable C-like syntax.
+ - wat-desugar: parse .wat text form as supported by the spec interpreter (s-expressions, flat syntax, or mixed) and print \"canonical\" flat format
+ - wasm2c: convert a WebAssembly binary file to a C source and header
+ - wasm-strip: remove sections of a WebAssembly binary file
+ - wasm-validate: validate a file in the WebAssembly binary format
+ - wast2json: convert a file in the wasm spec test format to a JSON file and associated wasm binary files
+ - wasm-opcodecnt: count opcode usage for instructions
+ - spectest-interp: read a Spectest JSON file, and run its tests in the interpreter
+
+These tools are intended for use in (or for development of) toolchains or other
+systems that want to manipulate WebAssembly files. Unlike the WebAssembly spec
+interpreter (which is written to be as simple, declarative and \"speccy\" as
+possible), they are written in C/C++ and designed for easier integration into
+other systems. Unlike Binaryen these tools do not aim to provide an optimization 
+platform or a higher-level compiler target; instead they aim for full fidelity and 
+compliance with the spec (e.g. 1:1 round-trips with no changes to instructions).
+"
+HOMEPAGE="https://github.com/WebAssembly/wabt"
+COPYRIGHT="2004 W3C"
+LICENSE="Apache v2"
+REVISION="1"
+SOURCE_URI="https://github.com/WebAssembly/wabt/releases/download/1.0.32/wabt-1.0.32.tar.xz"
+CHECKSUM_SHA256="8432925aa0fc22f52b94ea042784be1eb94733fbc29ef8a70f22f0c0822cf3a3"
+SOURCE_FILENAME="wabt-1.0.32.tar.xz"
+SOURCE_DIR="wabt-1.0.32"
+
+ARCHITECTURES="!x86_gcc2 all"
+
+PROVIDES="
+	wabt
+	cmd:wasm2c
+	cmd:wat2wasm
+	cmd:wasm2wat
+	cmd:wasm_objdump
+	cmd:wasm_interp
+	cmd:wasm_decompile
+	cmd:wat_desugar
+	cmd:wasm_strip
+	cmd:wasm_validate
+	cmd:wast2json
+	cmd:wasm_opcodecnt
+	cmd:spectest_interp
+	lib:libwasm
+	"
+REQUIRES="
+	haiku
+	"
+
+BUILD_REQUIRES="
+	haiku_devel
+	"
+BUILD_PREREQUIRES="
+	cmd:gcc
+	cmd:ninja
+	cmd:cmake
+	cmd:python3
+	"
+
+BUILD()
+{
+	mkdir -p build
+	cd build
+	cmake -G Ninja -DCMAKE_BUILD_TYPE=RELEASE ..
+	ninja
+}
+
+INSTALL()
+{
+	mkdir $binDir
+	cp build/wasm2c $binDir
+	cp build/wat2wasm $binDir
+	cp build/wasm2wat $binDir
+	cp build/wasm-objdump $binDir/wasm_objdump
+	cp build/wasm-interp $binDir/wasm_interp
+	cp build/wasm-decompile $binDir/wasm_decompile
+	cp build/wat-desugar $binDir/wat_desugar
+	cp build/wasm-strip $binDir/wasm_strip
+	cp build/wasm-validate $binDir/wasm_validate
+	cp build/wast2json $binDir
+	cp build/wasm-opcodecnt $binDir/wasm_opcodecnt
+	cp build/spectest-interp $binDir/spectest_interp
+	mkdir $libDir
+	cp build/libwasm.so $libDir
+}
