@@ -4,15 +4,14 @@ Arguru) is a tracker program combining a software synthesizer together with a \
 traditional samples tracker which can be used to create electronic music (like \
 psytrance, trance goa, hard acid, IDM, chip, techno, etc.) for small sized \
 intros, demos or games."
-HOMEPAGE="https://github.com/falkTX/protrekkr/"
-COPYRIGHT="2008-2011 Franck Charlet.
+HOMEPAGE="https://github.com/hitchhikr/protrekkr/"
+COPYRIGHT="2008-2024 Franck Charlet.
 	Based on Juan Antonio Arguelles Rius's NoiseTrekker."
-LICENSE="BSD (3-clause)"
-REVISION="2"
-srcGitRev="0b96ba56379eb179423e9dcbec31a08bf0326c9f"
-SOURCE_URI="https://github.com/falkTX/protrekkr/archive/$srcGitRev.tar.gz"
-CHECKSUM_SHA256="01011b996ae58a753d19e1b8637b6c0bb597b33767ad6e1555ecfaf640709d73"
-PATCHES="protrekkr-2.5.4.patchset"
+LICENSE="BSD (2-clause)"
+REVISION="1"
+srcGitRev="2.6.3git"
+SOURCE_URI="https://github.com/samuraicrow/protrekkr/releases/download/$srcGitRev/protrekkr-$srcGitRev.tar.xz"
+CHECKSUM_SHA256="5c5c4ff03cdb1dec75c861bca28288fca53e9af7ff1acc255e941f25d4b4c942"
 SOURCE_DIR="protrekkr-$srcGitRev"
 
 ARCHITECTURES="?all !x86_gcc2"
@@ -39,7 +38,7 @@ BUILD_PREREQUIRES="
 
 BUILD()
 {
-	make -f makefile.haiku
+	make -j$jobs -f makefile.haiku
 }
 
 INSTALL()
